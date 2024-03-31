@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>バックアップスケジューラー画面</title>
+  <style>
+    .red{
+      color: red;
+    }
+    .invalid{
+      border:2px solid red;
+    }
+  </style>
+  <script th:inline="javascript">
+    /*<![CDATA[*/
+    function showMessage(message) {
+      alert(message);
+    }
+
+    function selectBackupFile() {
+      document.getElementById('backupFileInput').click();
+    }
+
+    function selectDestinationFolder() {
+      document.getElementById('destinationFolderInput').click();
+    }
+
+    function displayBackupFileName(input) {
+      document.getElementById('backupFileText').value = input.files[0].name;
+    }
+    /*]]>*/
+  </script>
+</head>
+<body>
+  <div th:utext="${script}"></div>
+  <h2>バックアップスケジューラー</h2>
+  <form th:action="@{/backupSchedule}" th:object="${backupSchedule}" method="post" enctype="multipart/form-data">
+    
+    <label>バックアップ頻度(日)</label>
+    <input type="number" th:field="*{backupFrequency}" th:errorclass="invalid"><br>
+    <div class="red" th:errors="*{backupFrequency}"></div>
+
+    <label>バックアップ時間</label>
+    <input type="time" th:field="*{backupTime}" th:errorclass="invalid"><br>
+    <div class="red" th:errors="*{backupTime}"></div>
+
+    <label>バックアップ対象ファイル</label>
+    <button type="button" onclick="selectBackupFile()">ファイルを選択</button>
+    <input type="file" id="backupFileInput" name="backupFileText" style="display:none" onchange="displayBackupFileName(this)">
+    <input type="text" id="backupFileText" readonly><br>
+    
+    <label>バックアップ先フォルダ</label>
+    <button type="button" onclick="selectDestinationFolder()">フォルダを選択</button>
+    <input type="file" id="destinationFolderInput" name="destinationFolderText" style="display:none" directory webkitdirectory mozdirectory onchange="document.getElementById('destinationFolderText').value = this.value">
+    <input type="text" id="destinationFolderText" readonly><br>
+
+    <button>送信</button>
+  </form>
+</body>
+
+<h2>バックアップ情報一覧</h2>
+<table>
+  <thead>
+    <tr>
+      <td>バックアップ日時</td>
+      <td>ファイル名</td>
+      <td>ファイルパス</td>
+      <td>バックアップ状態</td>
+    </tr>
+  </thead>
+  <tr th:each="backupSchedule  : ${backupHistory}">
+    <td th:text="${backupSchedule.backupDateTime}"></td>
+    <td th:text="${backupSchedule.fileName}"></td>
+    <td th:text="${backupSchedule.filePath}"></td>
+    <td th:text="${backupSchedule.backupStatus}"></td>
+  </tr>
+</table>

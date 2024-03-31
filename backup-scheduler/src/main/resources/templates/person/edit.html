@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>バックアップスケジューラー画面</title>
+  <style>
+    .red{
+      color: red;
+    }
+    .invalid{
+      border:2px solid red;
+    }
+  </style>
+</head>
+<body>
+  <h2>バックアップスケジューラー</h2>
+  <form th:action="@{/update/{userId}(userId=${userId})}" th:object="${person}" method="post">
+    <label>ユーザー名</label>
+    <input type="text" th:field="*{name}" th:errorclass="invalid"><br>
+    <div class="red" th:errors="*{name}"></div>
+
+    <label>パスワード</label>
+    <input type="password" th:field="*{password}" th:errorclass="invalid"><br>
+    <div class="red" th:errors="*{password}"></div>
+
+    <label>メールアドレス</label>
+    <input type="email" th:field="*{email}" th:errorclass="invalid"><br>
+    <div class="red" th:errors="*{email}"></div>
+
+    <button>送信</button>
+  </form>
+</body>
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Person</title>
+  <style>
+    .red{
+      color: red;
+    }
+    .invalid{
+      border:2px solid red;
+    }
+  </style>
+</head>
+<body>
+<h2>ユーザー登録</h2>
+<form th:action="@{/create}" th:object="${person}" method="post">
+    <label>ユーザー名</label>
+    <input type="text" th:field="*{name}" th:errorclass="invalid"><br>
+    <div class="red" th:errors="*{name}"></div>
+    <label>パスワード</label>
+    <input type="password" th:field="*{password}" th:errorclass="invalid"><br>
+    <div class="red" th:errors="*{password}"></div>
+    <label>メールアドレス</label>
+    <input type="email" th:field="*{email}" th:errorclass="invalid"><br>
+    <div class="red" th:errors="*{email}"></div>
+    <button>送信</button>
+</form>
+
+  <h2>ユーザー情報一覧</h2>
+  <table>
+    <thead>
+      <tr>
+        <td>ユーザーID</td>
+        <td>ユーザー名</td>
+        <td>Eメール</td>
+        <td>ユーザー作成日時</td>
+      </tr>
+    </thead>
+    <tr th:each="person : ${people}">
+      <td>[[${person.userId}]]</td>
+      <td>[[${person.name}]]</td>
+      <td>[[${person.email}]]</td>
+      <td>[[${person.createdAt}]]</td>
+      <td><a th:href="@{/edit/{userId}(userId=${person.userId})}">編集</a></td>
+      <td><a th:href="@{/delete/{userId}(userId=${person.userId})}">削除</a></td>
+    </tr>
+  </table>
+
+  <h2>Backup Schedule</h2>
+  <form th:action="@{/backupSchedule}" method="post">    
+    <a th:href="@{/backupSchedule}">Backup Schedule 画面へ</a>
+  </form>
+</body>
+
+</html>
