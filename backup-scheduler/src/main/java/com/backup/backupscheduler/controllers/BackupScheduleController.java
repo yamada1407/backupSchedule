@@ -62,9 +62,10 @@ public class BackupScheduleController {
 
     // バックアップ処理の実装
     private void performBackup(Long backupFrequency, LocalTime backupTime, MultipartFile backupFileText, MultipartFile destinationFolderText, Model model) {
-        // バックアップ対象フォルダとバックアップ先フォルダのパスを取得
-        String backupFilePath = "E:\\TRPG\\VRTRPG\\";
-        String destinationFolderPath = "E:\\TRPG\\VRTRPG\\DataBackup";
+        // バックアップ対象フォルダとバックアップ先フォルダの仮パスを取得
+        // ブラウザのセキュリティ上、フォルダを選択するとC:\fakepath\フォルダ内の一番初めにあるファイル名が表示されるため
+        String backupFilePath = "E:\\workspace\\workspace\\techpit\\TEST";
+        String destinationFolderPath = "E:\\workspace\\workspace\\techpit\\DataBackup";
         
         // バックアップを実行する日時を取得
         LocalDate today = LocalDate.now();
